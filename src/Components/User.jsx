@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const User = () => {
@@ -10,37 +10,24 @@ const User = () => {
     balance: "50 coins",
   };
 
-  useEffect(() => {
-    document.querySelectorAll("p:nth-child(2)").forEach((p, index) => {
-      p.textContent = Object.values(userData)[index];
-    });
-  }, []);
-
   return (
-    <div className="bg-white h-screen flex flex-col">
-      <header className="w-full bg-black text-white p-4 flex justify-center items-center relative">
-        <button onClick={() => navigate('/home')} className="absolute left-4 text-white text-2xl">
+    <div className="bg-gray-50 flex flex-col items-center min-h-screen w-full">
+      {/* Header */}
+      <header className="w-full bg-black text-white p-4 flex items-center">
+        <button onClick={() => navigate('/home')} className="text-white text-2xl mr-4">
           &#x2190;
         </button>
-        <h1 className="text-xl font-bold">User Profile</h1>
+        <h2 className="text-xl font-semibold w-full text-center">User Profile</h2>
       </header>
-      <div className="flex flex-col items-center mt-8 space-y-6">
-        <div className="w-4/5 sm:w-96 p-4 border-2 border-dashed border-purple-400 rounded-md">
-          <p className="text-gray-700 font-semibold">User Name</p>
-          <p className="text-gray-500 mt-1">Loading...</p>
-        </div>
-        <div className="w-4/5 sm:w-96 p-4 border-2 border-dashed border-purple-400 rounded-md">
-          <p className="text-gray-700 font-semibold">Email Address</p>
-          <p className="text-gray-500 mt-1">Loading...</p>
-        </div>
-        <div className="w-4/5 sm:w-96 p-4 border-2 border-dashed border-purple-400 rounded-md">
-          <p className="text-gray-700 font-semibold">User Score</p>
-          <p className="text-gray-500 mt-1">Loading...</p>
-        </div>
-        <div className="w-4/5 sm:w-96 p-4 border-2 border-dashed border-purple-400 rounded-md">
-          <p className="text-gray-700 font-semibold">Wallet Balance</p>
-          <p className="text-gray-500 mt-1">Loading...</p>
-        </div>
+      
+      {/* Profile Details */}
+      <div className="flex flex-col items-center mt-6 space-y-4 w-full px-4">
+        {Object.entries(userData).map(([key, value]) => (
+          <div key={key} className="w-full max-w-md p-4 border-2 border-purple-400 rounded-lg bg-white shadow-sm">
+            <p className="text-gray-700 font-semibold capitalize">{key}</p>
+            <p className="text-gray-500 mt-1">{value}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
