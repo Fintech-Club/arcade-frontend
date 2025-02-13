@@ -1,12 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import money from '../assets/Money.png';
 
 const Payment = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const stallId = queryParams.get("stallId") || "Unknown Stall";
 
-  // Game details and amount
-  const gameDetails = "Example Game Name";
+  // Game details and amount (mocked for now)
+  const gameDetails = `Game at Stall ${stallId}`;
   const amount = "50 coins";
 
   return (
