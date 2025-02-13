@@ -5,9 +5,7 @@ import App from "./App";
 import "./index.css"; // Ensure Tailwind styles are loaded
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 );
