@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import SplashScreen from "./Components/SplashScreen";
 import Login from "./Components/Login";
 import Home from "./Components/Home";
-import Scanner from "./Components/Scanner";
+// import Scanner from "./Components/Scanner";
 import Payment from "./Components/Payment";
 import History from "./Components/History";
 import Money from "./Components/Money";
@@ -16,7 +16,7 @@ const App = () => {
         <Route path="/" element={<SplashScreen />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/scanner" element={<Scanner />} />
+        {/* <Route path="/scanner" element={<Scanner />} /> */}
         <Route path="/payment" element={<Payment />} />
         <Route path="/history" element={<History />} />
         <Route path="/money" element={<Money />} />

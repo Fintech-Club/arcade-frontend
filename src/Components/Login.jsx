@@ -1,29 +1,44 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
-  const [registration, setRegistration] = useState('');
+  const [regNo, setRegNo] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const validUsername = 'user';
-    const validPassword = 'pass';
+    setErrorMessage('');
 
-    if (registration === validUsername && password === validPassword) {
-      navigate('/home');
-    } else {
-      setErrorMessage(true);
+    try {
+      console.log("Sending Login Request with:", { regNo, password });
+      const response = await axios.post('http://localhost:9000/api/v1/user/login', {
+        regNo: regNo,
+        password: password
+      });
+
+      console.log("Full Response:", response);
+
+      if (response.status === 200) {
+        const token = response.data.data.token;
+        console.log("Received Token:", token);
+        localStorage.setItem('token', token);
+
+        console.log("Stored User Data:", response.data.data.user);
+        navigate('/home');
+      }
+    } catch (error) {
+      console.error("Login Error:", error.response);
+      setErrorMessage(error.response?.data?.message || 'Invalid credentials. Please try again.');
     }
   };
 
   return (
     <div className="bg-black min-h-screen flex flex-col items-center p-6">
       <div className="w-full max-w-sm">
-        {/* Heading */}
         <h1 className="text-xl md:text-2xl font-semibold text-gray-200 text-center mb-3 tracking-wide">
           Welcome to <span className="text-gray-100">Finance Carnival</span>
         </h1>
@@ -31,7 +46,6 @@ const Login = () => {
           Organized by <span className="text-gray-300">FinTech Club</span>
         </h2>
 
-        {/* Profile Avatar */}
         <div className="relative flex justify-center items-center mb-6">
           <div className="w-20 h-20 bg-gray-700 rounded-full flex items-center justify-center shadow-md">
             <svg
@@ -46,15 +60,14 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Login Form */}
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <input
               type="text"
-              placeholder="Registration No."
+              placeholder="Registration Number"
               className="w-full px-4 py-2.5 text-sm bg-gray-800 text-gray-300 rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              value={registration}
-              onChange={(e) => setRegistration(e.target.value)}
+              value={regNo}
+              onChange={(e) => setRegNo(e.target.value)}
               required
             />
           </div>
@@ -85,8 +98,7 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Error Message */}
-        {errorMessage && <p className="text-red-500 text-center text-sm mt-3">Invalid credentials. Please try again.</p>}
+        {errorMessage && <p className="text-red-500 text-center text-sm mt-3">{errorMessage}</p>}
       </div>
     </div>
   );
